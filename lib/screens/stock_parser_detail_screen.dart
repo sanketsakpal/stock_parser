@@ -19,7 +19,9 @@ class StockParserDetailScreen extends StatelessWidget {
         title: Text(
           "Stock Parser",
           style: TextStyle(
-              fontSize: FontSize.s16, fontWeight: FontWeightManager.bold),
+            fontSize: FontSize.s16,
+            fontWeight: FontWeightManager.bold,
+          ),
         ),
       ),
       body: Center(
@@ -67,74 +69,32 @@ class StockParserDetailScreen extends StatelessWidget {
                           child: NumberHighlightText(
                             sentence: argument?.criteria?[index].text ?? "",
                             onTap: (String? val) {
-                              List<num>? getListValue() {
-                                List<num>? test;
-                                if (val != null) {
-                                  if (val.contains('\$1') &&
-                                      argument!.criteria![index].variable?.the1
-                                              ?.type ==
-                                          "value") {
-                                    test = argument.criteria![index].variable
-                                        ?.the1?.values;
-                                  } else if (val.contains('\$1') &&
-                                      argument!.criteria![index].variable?.the1
-                                              ?.type ==
-                                          "indicator") {
-                                    Navigator.of(context).pushNamed(
-                                      RouteNames.criteriaVariablePeriodDetail,
-                                      arguments: argument
-                                          .criteria![index].variable?.the1,
-                                    );
-                                  } else if (val.contains('\$2') &&
-                                      argument!.criteria![index].variable?.the2
-                                              ?.type ==
-                                          "indicator") {
-                                    Navigator.of(context).pushNamed(
-                                      RouteNames.criteriaVariablePeriodDetail,
-                                      arguments: argument
-                                          .criteria![index].variable?.the2,
-                                    );
-                                  } else if (val.contains('\$3') &&
-                                      argument!.criteria![index].variable?.the3
-                                              ?.type ==
-                                          "indicator") {
-                                    Navigator.of(context).pushNamed(
-                                      RouteNames.criteriaVariablePeriodDetail,
-                                      arguments: argument
-                                          .criteria![index].variable?.the3,
-                                    );
-                                  } else if (val.contains('\$4') &&
-                                      argument!.criteria![index].variable?.the4
-                                              ?.type ==
-                                          "indicator") {
-                                    Navigator.of(context).pushNamed(
-                                      RouteNames.criteriaVariablePeriodDetail,
-                                      arguments: argument
-                                          .criteria![index].variable?.the4,
-                                    );
-                                  } else if (val.contains('\$2') &&
-                                      argument!.criteria![index].variable?.the2
-                                              ?.type ==
-                                          "value") {
-                                    test = argument.criteria![index].variable
-                                        ?.the2!.values;
-                                  } else if (val.contains('\$3')) {
-                                    test = argument!.criteria![index].variable
-                                        ?.the3!.values;
-                                  } else if (val.contains('\$4')) {
-                                    test = argument!.criteria![index].variable
-                                        ?.the4!.values;
-                                  }
-                                }
-                                return test;
+                              if (val != null &&
+                                  argument?.criteria?[index].type ==
+                                      "indicator") {
+                                getListValue(val, argument, index, context);
                               }
-
-                              if (getListValue() != null &&
-                                  getListValue()!.isNotEmpty) {
+                              if (getListValue(
+                                        val,
+                                        argument,
+                                        index,
+                                        context,
+                                      ) !=
+                                      null &&
+                                  getListValue(val, argument, index, context)!
+                                      .isNotEmpty) {
                                 Navigator.of(context).pushNamed(
                                   RouteNames.criteriaVariableDetail,
                                   arguments: {
-                                    "values": getList(getListValue() ?? []),
+                                    "values": getList(
+                                      getListValue(
+                                            val,
+                                            argument,
+                                            index,
+                                            context,
+                                          ) ??
+                                          [],
+                                    ),
                                   },
                                 );
                               }
@@ -161,4 +121,47 @@ List<num> getList(List<num> value) {
     test.add(element);
   }
   return test;
+}
+
+List<num>? getListValue(String? val, StockParserDataModel? argument, int index,
+    BuildContext context) {
+  List<num>? variableListData;
+  if (val != null) {
+    if (val.contains('\$1') &&
+        argument!.criteria![index].variable?.the1?.type == "value") {
+      variableListData = argument.criteria![index].variable?.the1?.values;
+    } else if (val.contains('\$1') &&
+        argument!.criteria![index].variable?.the1?.type == "indicator") {
+      Navigator.of(context).pushNamed(
+        RouteNames.criteriaVariablePeriodDetail,
+        arguments: argument.criteria![index].variable?.the1,
+      );
+    } else if (val.contains('\$2') &&
+        argument!.criteria![index].variable?.the2?.type == "indicator") {
+      Navigator.of(context).pushNamed(
+        RouteNames.criteriaVariablePeriodDetail,
+        arguments: argument.criteria![index].variable?.the2,
+      );
+    } else if (val.contains('\$3') &&
+        argument!.criteria![index].variable?.the3?.type == "indicator") {
+      Navigator.of(context).pushNamed(
+        RouteNames.criteriaVariablePeriodDetail,
+        arguments: argument.criteria![index].variable?.the3,
+      );
+    } else if (val.contains('\$4') &&
+        argument!.criteria![index].variable?.the4?.type == "indicator") {
+      Navigator.of(context).pushNamed(
+        RouteNames.criteriaVariablePeriodDetail,
+        arguments: argument.criteria![index].variable?.the4,
+      );
+    } else if (val.contains('\$2') &&
+        argument!.criteria![index].variable?.the2?.type == "value") {
+      variableListData = argument.criteria![index].variable?.the2!.values;
+    } else if (val.contains('\$3')) {
+      variableListData = argument!.criteria![index].variable?.the3!.values;
+    } else if (val.contains('\$4')) {
+      variableListData = argument!.criteria![index].variable?.the4!.values;
+    }
+  }
+  return variableListData;
 }

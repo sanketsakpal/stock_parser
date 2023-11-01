@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stock_scan_parser/resources/color_manager.dart';
 import 'package:stock_scan_parser/resources/font_manager.dart';
 import 'package:stock_scan_parser/resources/value_manager.dart';
@@ -24,6 +25,7 @@ class CriteriaVariableDetailScreen extends StatelessWidget {
       body: Center(
         child: BackGroundContainer(
           child: ListView.separated(
+            shrinkWrap: true,
             padding: EdgeInsets.only(top: AppPadding.p14),
             separatorBuilder: (context, index) {
               return Padding(
@@ -36,7 +38,7 @@ class CriteriaVariableDetailScreen extends StatelessWidget {
             itemCount: (argument?['values'] as List).length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.only(left: AppPadding.p16),
+                padding: EdgeInsets.only(left: AppPadding.p16, bottom: 10.h),
                 child: Text(
                   // ignore: avoid_dynamic_calls
                   "${argument!["values"][index]}",
