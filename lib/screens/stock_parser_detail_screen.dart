@@ -73,30 +73,31 @@ class StockParserDetailScreen extends StatelessWidget {
                                   argument?.criteria?[index].type ==
                                       "indicator") {
                                 getListValue(val, argument, index, context);
-                              }
-                              if (getListValue(
-                                        val,
-                                        argument,
-                                        index,
-                                        context,
-                                      ) !=
-                                      null &&
-                                  getListValue(val, argument, index, context)!
-                                      .isNotEmpty) {
-                                Navigator.of(context).pushNamed(
-                                  RouteNames.criteriaVariableDetail,
-                                  arguments: {
-                                    "values": getList(
-                                      getListValue(
-                                            val,
-                                            argument,
-                                            index,
-                                            context,
-                                          ) ??
-                                          [],
-                                    ),
-                                  },
-                                );
+                              } else {
+                                if (getListValue(
+                                          val,
+                                          argument,
+                                          index,
+                                          context,
+                                        ) !=
+                                        null &&
+                                    getListValue(val, argument, index, context)!
+                                        .isNotEmpty) {
+                                  Navigator.of(context).pushNamed(
+                                    RouteNames.criteriaVariableDetail,
+                                    arguments: {
+                                      "values": getList(
+                                        getListValue(
+                                              val,
+                                              argument,
+                                              index,
+                                              context,
+                                            ) ??
+                                            [],
+                                      ),
+                                    },
+                                  );
+                                }
                               }
                             },
                           ),
@@ -123,8 +124,12 @@ List<num> getList(List<num> value) {
   return test;
 }
 
-List<num>? getListValue(String? val, StockParserDataModel? argument, int index,
-    BuildContext context) {
+List<num>? getListValue(
+  String? val,
+  StockParserDataModel? argument,
+  int index,
+  BuildContext context,
+) {
   List<num>? variableListData;
   if (val != null) {
     if (val.contains('\$1') &&
